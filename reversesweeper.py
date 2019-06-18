@@ -91,9 +91,6 @@ def gameEnd():
         for revY in range(13):
             revealedList[revX][revY] = 1
     render()
-    pygame.display.quit()
-    pygame.quit()
-    sys.exit(0)
 
 endAtRenderStop = False
 gameOn = True
