@@ -17,7 +17,7 @@ images = []
 for imNum in range(9):
     images.append(pygame.image.load("assets/" + str(imNum) + ".png"))
 
-for imStr in ["mines","notmines","uk"]:
+for imStr in ["mines","notmines","uk","flag"]:
     images.append(pygame.image.load("assets/" + imStr + ".png"))
 
 lines = []
@@ -71,6 +71,8 @@ def render():
             ypos = math.floor((linestart - 100) / 50)
             if revealedList[xpos][ypos] == 1:
                 loadImg = images[square]
+            if revealedList[xpos][ypos] == 0.5:
+                loadImg = images[12]
             screen.blit(loadImg, Rect(numsquare, linestart, 50, 50))
             numsquare = numsquare + 50
         linestart = linestart + 50
@@ -91,6 +93,20 @@ def render():
                 revealedList[posx][posy] = 1;
                 if lines[posy][posx] == 9:
                     gameEnd()
+            else:
+                clean()
+        elif event.type == pygame.MOUSEBUTTONUP and event.button == 3:
+            pos = pygame.mouse.get_pos()
+            posx = pos[0]
+            posy = pos[1]
+            if posy > 100:
+                posy = posy - 100
+                posx = min(max(math.floor(posx / 50), 0), BOARD_SIZE - 1)
+                posy = min(max(math.floor(posy / 50), 0), BOARD_SIZE - 1)
+                if (revealedList[posx][posy] == 0):
+                    revealedList[posx][posy] = 0.5
+                elif (revealedList[posx][posy] == 0.5):
+                    revealedList[posx][posy] = 0
             else:
                 clean()
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_F2:
