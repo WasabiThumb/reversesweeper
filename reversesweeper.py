@@ -7,6 +7,7 @@ pygame.init()
 BOARD_SIZE = 13
 SQUARE_SIZE = 50 # You shouldn't change this, unless the textures change size.
 
+# Put all user customization options in this section (this includes evaluateMineNumber() so we can change how they are determined)
 screen = pygame.display.set_mode((BOARD_SIZE * SQUARE_SIZE,  BOARD_SIZE * SQUARE_SIZE + 100))
 myimage = pygame.image.load("assets/board.png")
 imagerect = Rect(0, 0, BOARD_SIZE * SQUARE_SIZE, BOARD_SIZE * SQUARE_SIZE + 100)
@@ -20,6 +21,19 @@ for imNum in range(9):
 
 for imStr in ["mines","notmines","uk","flag"]:
     images.append(pygame.image.load("assets/" + imStr + ".png"))
+
+def evaluateMineNumber(nMines, nNeighbors):
+    # nMines is number of mines in neighborhood
+    # nNeighbors is number of squares in neighborhood
+    # nNeighbors-nMines = empty square #
+    # nMines = mine #
+
+    return nNeighbors-nMines
+
+    # return nMines
+    # regular minesweeper ^
+
+# End customization section
 
 lines = []
 revealedList = []
@@ -60,7 +74,7 @@ def finalClean():
                     maxMines = 3
                 elif onEdge or onTopEdge:
                     maxMines = 5
-                lines[l][z] = maxMines - minesNear
+                lines[l][z] = evaluateMineNumber(minesNear, maxMines)
 
 clean()
 
