@@ -19,7 +19,7 @@ def clean():
     for x in range(13):
         xarray = []
         for y in range(13):
-            xarray.append(random.choice([10,10,10,9]))
+            xarray.append(random.choice([10,10,10,10,9]))
         lines.append(xarray)
     finalClean()
 
