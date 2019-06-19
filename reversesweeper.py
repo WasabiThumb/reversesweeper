@@ -99,4 +99,4 @@ def render():
 
 while gameOn:
     render()
-    clock.tick(30)
+    clock.tick(FPS)
