@@ -11,7 +11,7 @@ imagerect = Rect(0,0,650,750)
 FPS = 30
 clock = pygame.time.Clock()
 
-images = [];
+images = []
 for imNum in range(9):
     images.append(pygame.image.load("assets/" + str(imNum) + ".png"))
 
@@ -19,7 +19,16 @@ for imStr in ["mines","notmines","uk"]:
     images.append(pygame.image.load("assets/" + imStr + ".png"))
 
 lines = []
+revealedList = []
+
 def clean():
+    lines.clear()
+    revealedList.clear()
+    for times in range(13):
+        emptyTab = []
+        for timesx in range(13):
+            emptyTab.append(0)
+        revealedList.append(emptyTab)
     for x in range(13):
         xarray = []
         for y in range(13):
@@ -80,13 +89,6 @@ def finalClean():
                         minesNear = minesNear + 1
                 lines[l][z] = 8-minesNear
 
-revealedList = []
-for times in range(13):
-    emptyTab = []
-    for timesx in range(13):
-        emptyTab.append(0)
-    revealedList.append(emptyTab)
-
 clean()
 
 def gameEnd():
@@ -119,7 +121,7 @@ def render():
             pygame.display.quit()
             pygame.quit()
             sys.exit(0)
-        if event.type == pygame.MOUSEBUTTONUP:
+        elif event.type == pygame.MOUSEBUTTONUP:
             pos = pygame.mouse.get_pos()
             posx = pos[0]
             posy = pos[1]
@@ -130,6 +132,10 @@ def render():
                 revealedList[posx][posy] = 1;
                 if lines[posy][posx] == 9:
                     gameEnd()
+            else:
+                clean()
+        elif event.type == pygame.KEYDOWN and event.key == pygame.K_F2:
+            clean()
     pygame.display.flip()
     if endAtRenderStop:
         gameOn = False
