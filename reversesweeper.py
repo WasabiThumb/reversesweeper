@@ -8,7 +8,7 @@ screen = pygame.display.set_mode((650, 750))
 myimage = pygame.image.load("assets/board.png")
 imagerect = Rect(0,0,650,750)
 
-FPS = 30
+FPS = 60
 clock = pygame.time.Clock()
 
 images = []
