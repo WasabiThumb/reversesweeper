@@ -78,7 +78,7 @@ def render():
             pygame.display.quit()
             pygame.quit()
             sys.exit(0)
-        elif event.type == pygame.MOUSEBUTTONUP:
+        elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
             pos = pygame.mouse.get_pos()
             posx = pos[0]
             posy = pos[1]
