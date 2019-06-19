@@ -4,9 +4,9 @@ from pygame.time import Clock
 
 pygame.init()
 
-screen = pygame.display.set_mode((600, 800))
+screen = pygame.display.set_mode((650, 750))
 myimage = pygame.image.load("assets/board.png")
-imagerect = Rect(0,0,600,800)
+imagerect = Rect(0,0,650,750)
 
 FPS = 30
 clock = pygame.time.Clock()
@@ -99,7 +99,7 @@ def gameEnd():
 endAtRenderStop = False
 gameOn = True
 def render():
-    screen.fill([0,0,0])
+    screen.fill([255, 255, 255])
     screen.blit(myimage, imagerect)
     linestart = 100
     for line in lines:
