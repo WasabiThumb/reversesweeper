@@ -23,11 +23,15 @@ for imStr in ["mines","notmines","uk","flag"]:
 lines = []
 revealedList = []
 hasCascaded = []
+global firstMove
+firstMove = True
 
 def clean():
+    global firstMove
     lines.clear()
     revealedList.clear()
     hasCascaded.clear()
+    firstMove = True
     for times in range(BOARD_SIZE):
         emptyTab = []
         for timesx in range(BOARD_SIZE):
@@ -71,6 +75,7 @@ def gameEnd():
 endAtRenderStop = False
 gameOn = True
 def render():
+    global firstMove
     screen.fill([255, 255, 255])
     screen.blit(myimage, imagerect)
     linestart = 100
@@ -104,9 +109,15 @@ def render():
                 if not revealedList[posx][posy] == 0.5:
                     revealedList[posx][posy] = 1;
                     if lines[posy][posx] == 9:
-                        gameEnd()
+                        if firstMove:
+                            while lines[posy][posx] == 9:
+                                clean()
+                            revealedList[posx][posy] = 1;
+                        else:
+                            gameEnd()
                     if lines[posy][posx] == 8:
                         startCascade(posx,posy)
+                firstMove = False
             else:
                 clean()
         elif event.type == pygame.MOUSEBUTTONUP and event.button == 3:
