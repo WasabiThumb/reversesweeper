@@ -143,6 +143,18 @@ def render():
                 posx = min(max(math.floor(posx / SQUARE_SIZE), 0), BOARD_SIZE - 1)
                 posy = min(max(math.floor(posy / SQUARE_SIZE), 0), BOARD_SIZE - 1)
                 if not revealedList[posx][posy] == 0.5:
+                    if revealedList[posx][posy] == 1:
+                        shouldChord = True
+                        for r in range(max(0, posx - 1), min(BOARD_SIZE - 1, posx + 1) + 1):
+                            for c in range(max(0, posy - 1), min(BOARD_SIZE - 1, posy + 1) + 1):
+                                if lines[c][r] == 9:
+                                    if revealedList[r][c] != 0.5:
+                                        shouldChord = False
+                        if shouldChord:
+                            for r in range(max(0, posx - 1), min(BOARD_SIZE - 1, posx + 1) + 1):
+                                for c in range(max(0, posy - 1), min(BOARD_SIZE - 1, posy + 1) + 1):
+                                    if lines[c][r] != 9:
+                                        revealedList[r][c] = 1;
                     revealedList[posx][posy] = 1;
                     if lines[posy][posx] == 9:
                         if firstMove:
