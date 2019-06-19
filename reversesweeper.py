@@ -54,12 +54,8 @@ def finalClean():
                     for c in range(max(0, z - 1), min(BOARD_SIZE - 1, z + 1) + 1):
                         if lines[r][c] == 9: minesNear += 1
                 maxMines = 8
-                onEdge = False
-                onTopEdge = False
-                if l == 0: onEdge = True
-                if l == BOARD_SIZE - 1: onEdge = True
-                if z == 0: onTopEdge = True
-                if z == BOARD_SIZE - 1: onTopEdge = True
+                onEdge = (l == 0) or (l == BOARD_SIZE - 1)
+                onTopEdge = (z == 0) or (z == BOARD_SIZE - 1)
                 if onEdge and onTopEdge:
                     maxMines = 3
                 elif onEdge or onTopEdge:
