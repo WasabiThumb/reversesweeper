@@ -5,10 +5,11 @@ from pygame.time import Clock
 pygame.init()
 
 BOARD_SIZE = 13
+SQUARE_SIZE = 50
 
-screen = pygame.display.set_mode((BOARD_SIZE * 50,  BOARD_SIZE * 50 + 100))
+screen = pygame.display.set_mode((BOARD_SIZE * SQUARE_SIZE,  BOARD_SIZE * SQUARE_SIZE + 100))
 myimage = pygame.image.load("assets/board.png")
-imagerect = Rect(0, 0, BOARD_SIZE * 50, BOARD_SIZE * 50 + 100)
+imagerect = Rect(0, 0, BOARD_SIZE * SQUARE_SIZE, BOARD_SIZE * SQUARE_SIZE + 100)
 
 FPS = 60
 clock = pygame.time.Clock()
@@ -69,6 +70,9 @@ def gameEnd():
     endAtRenderStop = True
     for revX in range(BOARD_SIZE):
         for revY in range(BOARD_SIZE):
+            if revealedList[revX][revY] == 0.5:
+                if lines[revY][revX] != 9:
+                    lines[revY][revX] = 10
             revealedList[revX][revY] = 1
     render()
 
@@ -83,15 +87,15 @@ def render():
         numsquare = 0;
         for square in line:
             loadImg = images[11]
-            xpos = math.floor(numsquare / 50)
-            ypos = math.floor((linestart - 100) / 50)
+            xpos = math.floor(numsquare / SQUARE_SIZE)
+            ypos = math.floor((linestart - 100) / SQUARE_SIZE)
             if revealedList[xpos][ypos] == 1:
                 loadImg = images[square]
             if revealedList[xpos][ypos] == 0.5:
                 loadImg = images[12]
-            screen.blit(loadImg, Rect(numsquare, linestart, 50, 50))
-            numsquare = numsquare + 50
-        linestart = linestart + 50
+            screen.blit(loadImg, Rect(numsquare, linestart, SQUARE_SIZE, SQUARE_SIZE))
+            numsquare = numsquare + SQUARE_SIZE
+        linestart = linestart + SQUARE_SIZE
     ev = pygame.event.get()
     for event in ev:
         if event.type == pygame.QUIT:
@@ -104,8 +108,8 @@ def render():
             posy = pos[1]
             if posy > 100:
                 posy = posy - 100
-                posx = min(max(math.floor(posx / 50), 0), BOARD_SIZE - 1)
-                posy = min(max(math.floor(posy / 50), 0), BOARD_SIZE - 1)
+                posx = min(max(math.floor(posx / SQUARE_SIZE), 0), BOARD_SIZE - 1)
+                posy = min(max(math.floor(posy / SQUARE_SIZE), 0), BOARD_SIZE - 1)
                 if not revealedList[posx][posy] == 0.5:
                     revealedList[posx][posy] = 1;
                     if lines[posy][posx] == 9:
@@ -126,8 +130,8 @@ def render():
             posy = pos[1]
             if posy > 100:
                 posy = posy - 100
-                posx = min(max(math.floor(posx / 50), 0), BOARD_SIZE - 1)
-                posy = min(max(math.floor(posy / 50), 0), BOARD_SIZE - 1)
+                posx = min(max(math.floor(posx / SQUARE_SIZE), 0), BOARD_SIZE - 1)
+                posy = min(max(math.floor(posy / SQUARE_SIZE), 0), BOARD_SIZE - 1)
                 if (revealedList[posx][posy] == 0):
                     revealedList[posx][posy] = 0.5
                 elif (revealedList[posx][posy] == 0.5):
