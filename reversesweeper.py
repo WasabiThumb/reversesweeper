@@ -5,7 +5,7 @@ from pygame.time import Clock
 pygame.init()
 
 BOARD_SIZE = 13
-SQUARE_SIZE = 50
+SQUARE_SIZE = 50 # You shouldn't change this, unless the textures change size.
 
 screen = pygame.display.set_mode((BOARD_SIZE * SQUARE_SIZE,  BOARD_SIZE * SQUARE_SIZE + 100))
 myimage = pygame.image.load("assets/board.png")
@@ -57,6 +57,16 @@ def finalClean():
 
 clean()
 
+def winDetect():
+    hasWon = True
+    for r in range(0, BOARD_SIZE):
+        for c in range(0, BOARD_SIZE):
+            if revealedList[r][c] < 1:
+                if lines[c][r] != 9:
+                    hasWon = False
+    if hasWon:
+        gameEnd()
+
 def startCascade(l,z):
     for r in range(max(0, l - 1), min(BOARD_SIZE - 1, l + 1) + 1):
         for c in range(max(0, z - 1), min(BOARD_SIZE - 1, z + 1) + 1):
@@ -65,6 +75,7 @@ def startCascade(l,z):
                 hasCascaded.append([r,c]) # dev note! almost did .push, too much JS for me
                 if lines[c][r] == 8:
                     startCascade(r,c)
+    winDetect()
 
 def gameEnd():
     endAtRenderStop = True
@@ -119,11 +130,21 @@ def render():
                             revealedList[posx][posy] = 1;
                         else:
                             gameEnd()
+                    else:
+                        # win detection should be here, and after startCascade loop for best performance
+                        winDetect()
                     if lines[posy][posx] == 8:
                         startCascade(posx,posy)
                 firstMove = False
             else:
                 clean()
+        #MMB "Cheat" function for testing
+        #elif event.type == pygame.MOUSEBUTTONUP and event.button == 2:
+        #    for revX in range(BOARD_SIZE):
+        #        for revY in range(BOARD_SIZE):
+        #            if lines[revY][revX] != 9:
+        #                revealedList[revX][revY] = 1
+        #    winDetect()
         elif event.type == pygame.MOUSEBUTTONUP and event.button == 3:
             pos = pygame.mouse.get_pos()
             posx = pos[0]
