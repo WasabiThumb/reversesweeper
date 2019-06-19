@@ -22,12 +22,10 @@ for imStr in ["mines","notmines","uk","flag"]:
 
 lines = []
 revealedList = []
-hasCascaded = []
 
 def clean():
     lines.clear()
     revealedList.clear()
-    hasCascaded.clear()
     for times in range(BOARD_SIZE):
         emptyTab = []
         for timesx in range(BOARD_SIZE):
@@ -52,13 +50,14 @@ def finalClean():
 
 clean()
 
+hasCascaded = []
 def startCascade(l,z):
     for r in range(max(0, l - 1), min(BOARD_SIZE - 1, l + 1) + 1):
         for c in range(max(0, z - 1), min(BOARD_SIZE - 1, z + 1) + 1):
-            revealedList[r][c] = 1
             if [r,c] not in hasCascaded:
-                hasCascaded.append([r,c]) # dev note! almost did .push, too much JS for me
                 if lines[c][r] == 8:
+                    hasCascaded.append([r,c]) # dev note! almost did .push, too much JS for me
+                    if lines[c][r] == 8: revealedList[r][c] = 1
                     startCascade(r,c)
 
 def gameEnd():
@@ -101,11 +100,12 @@ def render():
                 posy = posy - 100
                 posx = min(max(math.floor(posx / 50), 0), BOARD_SIZE - 1)
                 posy = min(max(math.floor(posy / 50), 0), BOARD_SIZE - 1)
-                revealedList[posx][posy] = 1;
-                if lines[posy][posx] == 9:
-                    gameEnd()
-                if lines[posy][posx] == 8:
-                    startCascade(posx,posy)
+                if not revealedList[posx][posy] == 0.5:
+                    revealedList[posx][posy] = 1;
+                    if lines[posy][posx] == 9:
+                        gameEnd()
+                    if lines[posy][posx] == 8:
+                        startCascade(posx,posy)
             else:
                 clean()
         elif event.type == pygame.MOUSEBUTTONUP and event.button == 3:
