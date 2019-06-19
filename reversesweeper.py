@@ -61,8 +61,8 @@ def finalClean():
                     squara = None
                     squarb = None
                     squarc = None
-                    if len(neighbora) > (z-1): squara = neighborc[z-1]
-                    if len(neighborb) > (z): squarb = neighborc[z]
+                    if len(neighborc) > (z-1): squara = neighborc[z-1]
+                    if len(neighborc) > (z): squarb = neighborc[z]
                     if len(neighborc) > (z+1): squarc = neighborc[z+1]
                     neighborc = []
                     if squara: neighborc.append(squara)
