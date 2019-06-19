@@ -1,11 +1,15 @@
 import pygame, random, math, sys
 from pygame.locals import *
+from pygame.time import Clock
 
 pygame.init()
 
 screen = pygame.display.set_mode((600, 800))
 myimage = pygame.image.load("assets/board.png")
 imagerect = Rect(0,0,600,800)
+
+FPS = 30
+clock = pygame.time.Clock()
 
 images = [];
 for imNum in range(9):
@@ -132,3 +136,4 @@ def render():
 
 while gameOn:
     render()
+    clock.tick(30)
