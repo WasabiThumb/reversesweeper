@@ -55,9 +55,9 @@ def startCascade(l,z):
     for r in range(max(0, l - 1), min(BOARD_SIZE - 1, l + 1) + 1):
         for c in range(max(0, z - 1), min(BOARD_SIZE - 1, z + 1) + 1):
             if [r,c] not in hasCascaded:
-                if lines[r][c] == 8:
+                if lines[c][r] == 8:
                     hasCascaded.append([r,c]) # dev note! almost did .push, too much JS for me
-                    if lines[r][c] == 8: revealedList[r][c] = 1
+                    if lines[c][r] == 8: revealedList[r][c] = 1
                     startCascade(r,c)
 
 def gameEnd():
