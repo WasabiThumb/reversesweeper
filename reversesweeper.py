@@ -39,55 +39,12 @@ def clean():
 def finalClean():
     for l in range(13):
         for z in range(13):
+            minesNear = 0
             if lines[l][z] == 10:
-                neighbora = None
-                neighborb = None
-                neighborc = None
-                if len(lines) > (l-1): neighbora = lines[l-1]
-                totalneighbors = []
-                if neighbora:
-                    squara = None
-                    squarb = None
-                    squarc = None
-                    if len(neighbora) > (z-1): squara = neighbora[z-1]
-                    if len(neighbora) > (z): squarb = neighbora[z]
-                    if len(neighbora) > (z+1): squarc = neighbora[z+1]
-                    neighbora = []
-                    if squara: neighbora.append(squara)
-                    if squarb: neighbora.append(squarb)
-                    if squarc: neighbora.append(squarc)
-                    for neighbor in neighbora:
-                        totalneighbors.append(neighbor)
-                if len(lines) > (l): neighborb = lines[l]
-                if neighborb:
-                    squara = None
-                    squarc = None
-                    if len(neighborb) > (z-1): squara = neighborb[z-1]
-                    if len(neighborb) > (z+1): squarc = neighborb[z+1]
-                    neighborb = []
-                    if squara: neighborb.append(squara)
-                    if squarc: neighborb.append(squarc)
-                    for neighbor in neighborb:
-                        totalneighbors.append(neighbor)
-                if len(lines) > (l+1): neighborc = lines[l+1]
-                if neighborc:
-                    squara = None
-                    squarb = None
-                    squarc = None
-                    if len(neighborc) > (z-1): squara = neighborc[z-1]
-                    if len(neighborc) > (z): squarb = neighborc[z]
-                    if len(neighborc) > (z+1): squarc = neighborc[z+1]
-                    neighborc = []
-                    if squara: neighborc.append(squara)
-                    if squarb: neighborc.append(squarb)
-                    if squarc: neighborc.append(squarc)
-                    for neighbor in neighborc:
-                        totalneighbors.append(neighbor)
-                minesNear = 0;
-                for n in totalneighbors:
-                    if n == 9:
-                        minesNear = minesNear + 1
-                lines[l][z] = 8-minesNear
+                for r in range(max(0, l - 1), min(12, l + 1) + 1):
+                    for c in range(max(0, z - 1), min(12, z + 1) + 1):
+                        if lines[r][c] == 9: minesNear += 1
+                lines[l][z] = 8 - minesNear
 
 clean()
 
