@@ -94,7 +94,7 @@ def startCascade(l,z):
             revealedList[r][c] = 1
             if [r,c] not in hasCascaded:
                 hasCascaded.append([r,c]) # dev note! almost did .push, too much JS for me
-                if lines[c][r] == 8:
+                if lines[c][r] == evaluateMineNumber(0,8):
                     startCascade(r,c)
     winDetect()
 
@@ -111,6 +111,8 @@ def gameEnd():
 endAtRenderStop = False
 gameOn = True
 def render():
+    if pygame.key.get_pressed()[pygame.K_r]:
+        clean()
     global firstMove
     screen.fill([255, 255, 255])
     screen.blit(myimage, imagerect)
@@ -149,26 +151,26 @@ def render():
                             for c in range(max(0, posy - 1), min(BOARD_SIZE - 1, posy + 1) + 1):
                                 if lines[c][r] == 9 and revealedList[r][c] != 0.5:
                                     shouldChord = False
-                                if lines[c][r] != 9 and revealedList[c][r] == 0.5:
+                                if lines[c][r] != 9 and revealedList[r][c] == 0.5:
                                     shouldChord = False
                         if shouldChord:
                             for r in range(max(0, posx - 1), min(BOARD_SIZE - 1, posx + 1) + 1):
                                 for c in range(max(0, posy - 1), min(BOARD_SIZE - 1, posy + 1) + 1):
                                     if lines[c][r] != 9:
                                         revealedList[r][c] = 1;
-                                        if lines[c][r] == 8: startCascade(r,c)
+                                        if lines[c][r] == evaluateMineNumber(0,8): startCascade(r,c)
                     revealedList[posx][posy] = 1;
-                    if lines[posy][posx] == 9:
+                    if lines[posy][posx] != evaluateMineNumber(0,8):
                         if firstMove:
-                            while lines[posy][posx] == 9:
+                            while lines[posy][posx] != evaluateMineNumber(0,8):
                                 clean()
                             revealedList[posx][posy] = 1;
-                        else:
+                            startCascade(posx,posy)
+                        elif lines[posy][posx] == 9:
                             gameEnd()
+                        else:
+                            winDetect()
                     else:
-                        # win detection should be here, and after startCascade loop for best performance
-                        winDetect()
-                    if lines[posy][posx] == 8:
                         startCascade(posx,posy)
                 firstMove = False
             else:
